@@ -12,9 +12,14 @@ namespace empresaTint
 {
     public partial class Consultar : Form
     {
+        DAO consul;
         public Consultar()
         {
+            consul = new DAO();
             InitializeComponent();
+            configurarDataGrid();//configuro a estrutura da coluna e linha
+            nomeColunas(); //nomeando as colunas
+            adicionarDados(); //adicionando os dados
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -25,31 +30,39 @@ namespace empresaTint
         private void voltar_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }//fim do voltar
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        public void nomeColunas()
         {
-            
-        }//fim da caixa código
+            dataGridView1.Columns[0].Name = "Código";
+            dataGridView1.Columns[1].Name = "Nome";
+            dataGridView1.Columns[2].Name = "Telefone";
+            dataGridView1.Columns[3].Name = "Endereço";
+        }//fim do nomeColunas
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        public void configurarDataGrid()
+        {
+            dataGridView1.AllowUserToAddRows = false; //Não pode add linhas
+            dataGridView1.AllowUserToDeleteRows = false; //Não pode apagar linhas
+            dataGridView1.AllowUserToResizeColumns = false; //Não pode redimensionar colunas
+            dataGridView1.AllowUserToResizeRows = false; //Não pode redimensionar linhas
+
+            dataGridView1.ColumnCount = 4;
+        }//fim do método configurar
+
+        public void adicionarDados()
+        {
+            consul.PreencherVetor(); //Preencher os vetores c/ dados do bd
+            for(int i=0; i < consul.quantidadeDeDados(); i++)
+            {
+                dataGridView1.Rows.Add(consul.codigo[i], consul.nome[i], consul.telefone[i], consul.endereco[i]);
+            }//fim do for
+        }//fim do adicionar dados
+
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-        }//fim da caixa nome
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }//fim da caixa telefone
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }//fim da caixa endereco
-
-        private void consu_Click(object sender, EventArgs e)
-        {
-
-        }//fim do botao consultar
-    }
-}
+        }//fim do dataGridView
+    }//fim da classe
+}//fim do projeto
